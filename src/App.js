@@ -5,6 +5,8 @@ import Dashboard from 'component/dashboard/dashboard'
 import Login from 'component/login/login'
 import Tenant from 'component/Tenant/Tenant'
 import AddTenant from 'component/Tenant/AddTenant'
+import Payment from 'component/payment/payment'
+import NewPayment from 'component/payment/newPayment'
 
 export default class App extends React.Component {
     render() {
@@ -16,6 +18,8 @@ export default class App extends React.Component {
             <Route path='/dashboard' component={Dashboard} />
             <Route path='/tenant' exact component={Tenant} />
             <Route path='/tenant/create' component={AddTenant} />
+            <Route path='/payment' exact component={Payment} />
+            <Route path='/payment/makePayment' exact component={NewPayment} />
           </Switch>
         </div>
       </Router>

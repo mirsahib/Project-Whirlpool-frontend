@@ -22,16 +22,30 @@ export default class Footer extends React.Component {
                     </Link>
                     <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                            <a class="nav-link" href="layout-static.html">Tenant</a>
-                            <a class="nav-link" href="layout-sidenav-light.html">Create Tenant</a>
+                          <Link class='nav-link' to='/tenant'>
+                            Tenant
+                          </Link>
+                          <Link class='nav-link' to='/tenant/create'>
+                            Create Tenant
+                          </Link>
+                            
                         </nav>
                     </div>
-                    <Link class='nav-link' to='/dashboard'><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    <Link class='nav-link' to='/payment'><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                       Payment
                     </Link>
-                    <Link class='nav-link' to='/dashboard'><div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                      Invoice
+                    <Link class="nav-link collapsed" data-toggle="collapse" data-target="#utilityLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                          Utility Bills
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                     </Link>
+                    <div class="collapse" id="utilityLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
+                        <nav class="sb-sidenav-menu-nested nav">
+                          <Link class='nav-link' to='/tenant'>
+                            Electric bills
+                          </Link>   
+                        </nav>
+                    </div>
               </div>
           </div>
           <div class="sb-sidenav-footer">
