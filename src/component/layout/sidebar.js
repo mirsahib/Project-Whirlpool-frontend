@@ -41,8 +41,8 @@ export default class Footer extends React.Component {
                     </Link>
                     <div class="collapse" id="utilityLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
                         <nav class="sb-sidenav-menu-nested nav">
-                          <Link class='nav-link' to='/tenant'>
-                            Electric bills
+                          <Link class='nav-link' to='/electric'>
+                            Electric Meter Reading
                           </Link>   
                         </nav>
                     </div>

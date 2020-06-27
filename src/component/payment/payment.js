@@ -51,8 +51,8 @@ export default class Payment extends React.Component {
                                                         <td>Tiger Nixon</td>
                                                         <td>Tiger Nixon</td>
                                                         <td>
-                                                        <Link class='btn btn-info ml-2' >Show</Link>
-                                                        <Link class='btn btn-primary ml-2' to='/payment/makePayment' >Pay Rent</Link>
+                                                            <Link class='btn btn-info ml-2' >Show</Link>
+                                                            <Link class='btn btn-primary ml-2' to='payment/makePayment' >Pay Rent</Link>
                                                         
                                                         </td>
                                                     </tr>

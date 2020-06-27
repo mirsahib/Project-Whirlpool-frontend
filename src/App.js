@@ -7,6 +7,8 @@ import Tenant from 'component/Tenant/Tenant'
 import AddTenant from 'component/Tenant/AddTenant'
 import Payment from 'component/payment/payment'
 import NewPayment from 'component/payment/newPayment'
+import ElectricMeterReading from 'component/utility/ElectricMeterReading'
+
 
 export default class App extends React.Component {
     render() {
@@ -19,7 +21,8 @@ export default class App extends React.Component {
             <Route path='/tenant' exact component={Tenant} />
             <Route path='/tenant/create' component={AddTenant} />
             <Route path='/payment' exact component={Payment} />
-            <Route path='/payment/makePayment' exact component={NewPayment} />
+            <Route path='/payment/makePayment' component={NewPayment} />
+            <Route path='/electric' component={ElectricMeterReading} />
           </Switch>
         </div>
       </Router>
