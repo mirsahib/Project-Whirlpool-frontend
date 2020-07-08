@@ -30,27 +30,27 @@ const options = [
     { value: '110', label: '110' },
 ];
 
+const initState = {
+    startDate: moment(),
+    nameInput: '',
+    nidInput:'',
+    nid_img:'',
+    phoneInput:'',
+    rentInput:'',
+    hridInput:'',
+    nameError: '',
+    nidError:'',
+    phoneError:'',
+    rentError:'',
+    redirect:false
+}
+
 export default class AddTenant extends React.Component {
     constructor(props) {
         super(props);
-        this.state ={
-            startDate: moment(),
-            nameInput: '',
-            nidInput:'',
-            nid_img:'',
-            phoneInput:'',
-            rentInput:'',
-            hridInput:'',
-            error :[],
-            redirect:false
-            
-        }
-      }
-    hasError = key=>{
-        console.log(this.state.error)
-
-        return this.state.error.indexOf(key) !==-1;
+        this.state =initState
     }
+
     handleDateChange = (date)=>{
         this.setState({
             startDate: date
@@ -68,24 +68,34 @@ export default class AddTenant extends React.Component {
         console.log(`Option selected:`, hridInput);
     }
 
+    validate = ()=>{
+        let flag = true;
+        let nameError = ""
+
+        if(!this.state.nameError.includes(' ')){
+            nameError = "Full name should contain a space"
+        }
+
+        if(nameError){
+            this.setState({nameError})
+            flag = false
+        }
+        return flag
+
+    }
     
 
     handleFormSubmit = (e)=>{
         e.preventDefault();
-        let errors = [];
- 
-        //firstname
-        if (this.state.nameInput === "") {
-            errors.push("nameInput");
+        
+        let isValid = this.validate()
+
+        if(isValid){
+            console.log("form valid")
+            this.setState(initState)
         }
-        this.setState({
-            error: errors
-        });
-        if (errors.length > 0) {
-            return false;
-        } else {
-            alert("everything good. submit form!");
-        }
+
+    
 
         // const tenant = {
         //     name: this.state.nameInput,
@@ -108,6 +118,8 @@ export default class AddTenant extends React.Component {
         //       errors: error.response.data.errors
         //     })
         //   })
+
+        
     }
 
     render() {
@@ -133,12 +145,13 @@ export default class AddTenant extends React.Component {
                                     <form onSubmit={this.handleFormSubmit} novalidate>
                                         <div className='form-group'>
                                             <label for="exampleInputEmail1">Full Name</label>
-                                            <input type="text" className="form-control" id="nameInput" name="nameInput" value={this.state.name} onChange = {this.handleFieldChange}  placeholder="Enter full name eg:Mahfuz Anam" />
-                                            <div className={()=>this.hasError("nameInput") ? "inline-errormsg" : "d-none"}>Please enter a value</div>
+                                            <input type="text" className="form-control" id="nameInput" name="nameInput" value={this.state.nameInput} onChange = {this.handleFieldChange}  placeholder="Enter full name eg:Mahfuz Anam" />
+                                            <div style={{fontSize:14, color:'red'}}>{this.state.nameError}</div>
                                         </div>
                                         <div className='form-group'>
                                             <label for="exampleInputEmail1">National ID</label>
                                             <input type="text" className="form-control" id="nidInput" name="nidInput" value={this.state.nid} onChange={this.handleFieldChange} placeholder="Enter national id" />
+                                            
                                         </div>
                                         <div className='form-group'>
                                             <label for="exampleInputEmail1">National ID Image</label>
