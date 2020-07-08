@@ -3,10 +3,8 @@ import Header from '../layout/header'
 import Sidebar from '../layout/sidebar'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Footer from '../layout/footer'
-import {DropdownButton,Dropdown} from 'react-bootstrap'
 import 'react-dates/initialize';
 import 'react-dates/lib/css/_datepicker.css';
-import {SingleDatePicker} from 'react-dates';
 
 import '../../App.css';
 
