@@ -89,7 +89,7 @@ export default class Tenant extends React.Component {
                                                             <td>{tenant.exp_rent}</td>
                                                             <td>{tenant.hrid}</td>
                                                             <td>
-                                                            <Link className='btn btn-info ml-2' >Show</Link>
+                                                            <Link className='btn btn-info ml-2' to={"/tenant/show/"+tenant.id} >Show</Link>
                                                             <Link className='btn btn-primary ml-2' >Edit</Link>
                                                             <Link className='btn btn-danger ml-2' >Delete</Link>
                                                             </td>
