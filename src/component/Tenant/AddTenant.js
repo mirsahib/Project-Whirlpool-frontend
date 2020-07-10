@@ -12,10 +12,10 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Select from 'react-select'
 import { Redirect } from 'react-router'
-
-
-
 import '../../App.css';
+import {config} from '../../config/constants'
+
+var url = config.url.API_URL
 
 const options = [
     { value: '101', label: '101' },
@@ -112,7 +112,7 @@ export default class AddTenant extends React.Component {
             }
             //below line is commented because to test redirect component
             //console.log(tenant)
-            // axios.post('http://127.0.0.1:8000/api/tenants', tenant)
+            // axios.post(url+'api/tenants', tenant)
             // .then(response => {
             //     // redirect to the homepage
             //     this.setState({redirect:true,msg:'success'})

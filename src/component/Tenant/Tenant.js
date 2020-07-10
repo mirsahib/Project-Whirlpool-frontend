@@ -5,8 +5,10 @@ import Sidebar from '../layout/sidebar'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Footer from '../layout/footer'
 import '../../App.css';
+import {config} from '../../config/constants'
 
-
+var url = config.url.API_URL
+//var url_users = config.url.API_URL_USERS
 
 
 export default class Tenant extends React.Component {
@@ -19,7 +21,7 @@ export default class Tenant extends React.Component {
 
     componentDidMount(){
         
-        axios.get("http://127.0.0.1:8000/api/tenants").then(response => {
+        axios.get(url+"api/tenants").then(response => {
             this.setState({
               tenantList: [...response.data.tenants]
             })
