@@ -1,5 +1,7 @@
 import React from 'react';
 import '../../App.css';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
+
 
 
 export default class Header extends React.Component {
@@ -22,10 +24,10 @@ export default class Header extends React.Component {
                 <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
                     <div className="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a className="dropdown-item" href="#">Settings</a>
-                        <a className="dropdown-item" href="#">Activity Log</a>
+                        <Link className="dropdown-item" to='/'>Settings</Link>
+                        <Link className="dropdown-item" to='/'>Activity Log</Link>
                         <div className="dropdown-divider"></div>
-                        <a className="dropdown-item" href="login.html">Logout</a>
+                        <Link className="dropdown-item" to='/'>Logout</Link>
                     </div>
                 </li>
             </ul>

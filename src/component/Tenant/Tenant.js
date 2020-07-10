@@ -38,7 +38,7 @@ export default class Tenant extends React.Component {
         // show alert on conditon
         var alert = ''
         if(this.props.location.state!==undefined){
-            alert = <div class="alert alert-success" role="alert">
+            alert = <div className="alert alert-success" role="alert">
                         Success       
                     </div>
             const {location,history} = this.props;
@@ -52,20 +52,20 @@ export default class Tenant extends React.Component {
                 <Sidebar />
                 <div id="layoutSidenav_content">
                     <main>
-                        <div class="container-fluid">
-                            <h1 class="mt-4">Tenant</h1>
-                            <ol class="breadcrumb mb-4">
-                                <li class="breadcrumb-item"><Link to='/dashboard'>Dashboard</Link></li>
-                                <li class="breadcrumb-item active">Tenant</li>
+                        <div className="container-fluid">
+                            <h1 className="mt-4">Tenant</h1>
+                            <ol className="breadcrumb mb-4">
+                                <li className="breadcrumb-item"><Link to='/dashboard'>Dashboard</Link></li>
+                                <li className="breadcrumb-item active">Tenant</li>
                             </ol>
                             {alert}
                             
-                            <div class="card mb-4">
-                                <div class="card-body">
-                                    <Link class='btn btn-success mb-3' to='/tenant/create' >Create Tenant</Link>
+                            <div className="card mb-4">
+                                <div className="card-body">
+                                    <Link className='btn btn-success mb-3' to='/tenant/create' >Create Tenant</Link>
                                     
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <div className="table-responsive">
+                                        <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
                                                 <tr>
                                                     <th>Name</th>
@@ -87,9 +87,9 @@ export default class Tenant extends React.Component {
                                                             <td>{tenant.exp_rent}</td>
                                                             <td>{tenant.hrid}</td>
                                                             <td>
-                                                            <Link class='btn btn-info ml-2' >Show</Link>
-                                                            <Link class='btn btn-primary ml-2' >Edit</Link>
-                                                            <Link class='btn btn-danger ml-2' >Delete</Link>
+                                                            <Link className='btn btn-info ml-2' >Show</Link>
+                                                            <Link className='btn btn-primary ml-2' >Edit</Link>
+                                                            <Link className='btn btn-danger ml-2' >Delete</Link>
                                                             </td>
                                                         </tr>
                                                     ))}
