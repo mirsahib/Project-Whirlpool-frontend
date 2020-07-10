@@ -30,25 +30,28 @@ const options = [
     { value: '110', label: '110' },
 ];
 
-const initState = {
-    startDate: moment(),
-    nameInput: '',
-    nidInput:'',
-    nid_img:'',
-    phoneInput:'',
-    rentInput:'',
-    hridInput:'',
-    nameError: '',
-    nidError:'',
-    phoneError:'',
-    rentError:'',
-    redirect:false
-}
+
 
 export default class AddTenant extends React.Component {
     constructor(props) {
         super(props);
-        this.state =initState
+        this.state ={
+            startDate: moment(),
+            nameInput: '',
+            nidInput:'',
+            nid_img:'',
+            phoneInput:'',
+            rentInput:'',
+            hridInput:'',
+            nameError: '',
+            nidError:'',
+            phoneError:'',
+            rentError:'',
+            hridError:'',
+            errors:'',
+            msg:'',
+            redirect:false
+        }
     }
 
     handleDateChange = (date)=>{
@@ -71,15 +74,22 @@ export default class AddTenant extends React.Component {
     validate = ()=>{
         let flag = true;
         let nameError = ""
+        let hridError = ""
 
-        if(!this.state.nameError.includes(' ')){
+        if(!this.state.nameInput.includes(' ')){
             nameError = "Full name should contain a space"
-        }
-
-        if(nameError){
             this.setState({nameError})
             flag = false
         }
+        
+        if(this.state.hridInput.value === undefined){
+            hridError = "please select a house/room number"
+            this.setState({hridError})
+            flag = false
+        }
+
+        //datepicker validation is not done
+
         return flag
 
     }
@@ -92,39 +102,39 @@ export default class AddTenant extends React.Component {
 
         if(isValid){
             console.log("form valid")
-            this.setState(initState)
+            const tenant = {
+                name: this.state.nameInput,
+                nid:this.state.nidInput,
+                phone:this.state.phoneInput,
+                exp_rent: this.state.rentInput,
+                reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
+                hrid:this.state.hridInput.value
+            }
+            //below line is commented because to test redirect component
+            //console.log(tenant)
+            // axios.post('http://127.0.0.1:8000/api/tenants', tenant)
+            // .then(response => {
+            //     // redirect to the homepage
+            //     this.setState({redirect:true,msg:'success'})
+            //     console.log(response);
+                
+            // })
+            // .catch(error => {
+            //     this.setState({
+            //     errors: error.response.data.errors,msg:'failed'
+            //     })
+            // })
+            this.setState({redirect:true,msg:'success'})
+            this.setState({nameError:'',hridError:''})
         }
-
-    
-
-        // const tenant = {
-        //     name: this.state.nameInput,
-        //     nid:this.state.nidInput,
-        //     phone:this.state.phoneInput,
-        //     exp_rent: this.state.rentInput,
-        //     reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
-        //     hrid:this.state.hridInput.value
-        // }
-        // console.log(tenant)
-        // axios.post('http://127.0.0.1:8000/api/tenants', tenant)
-        //   .then(response => {
-        //     // redirect to the homepage
-        //     this.setState({redirect:true})
-        //     console.log(response);
-            
-        //   })
-        //   .catch(error => {
-        //     this.setState({
-        //       errors: error.response.data.errors
-        //     })
-        //   })
-
-        
     }
 
     render() {
         if(this.state.redirect){
-            return <Redirect to="/tenant"/>
+            return <Redirect to={{
+                pathname: "/tenant",
+                state : {msg:this.state.msg}
+            }}/>
         }
       return (
         <div>
@@ -145,12 +155,12 @@ export default class AddTenant extends React.Component {
                                     <form onSubmit={this.handleFormSubmit} novalidate>
                                         <div className='form-group'>
                                             <label for="exampleInputEmail1">Full Name</label>
-                                            <input type="text" className="form-control" id="nameInput" name="nameInput" value={this.state.nameInput} onChange = {this.handleFieldChange}  placeholder="Enter full name eg:Mahfuz Anam" />
+                                            <input type="text" className="form-control" id="nameInput" name="nameInput" value={this.state.nameInput} onChange = {this.handleFieldChange}  placeholder="Enter full name eg:Mahfuz Anam" required/>
                                             <div style={{fontSize:14, color:'red'}}>{this.state.nameError}</div>
                                         </div>
                                         <div className='form-group'>
                                             <label for="exampleInputEmail1">National ID</label>
-                                            <input type="text" className="form-control" id="nidInput" name="nidInput" value={this.state.nid} onChange={this.handleFieldChange} placeholder="Enter national id" />
+                                            <input type="text" className="form-control" id="nidInput" name="nidInput" value={this.state.nidInput} onChange={this.handleFieldChange} placeholder="Enter national id" required/>
                                             
                                         </div>
                                         <div className='form-group'>
@@ -168,12 +178,14 @@ export default class AddTenant extends React.Component {
                                         </div>
                                         <div className='form-group'>
                                             <label for="exampleInputEmail1">Phone Number</label>
-                                            <input type="text" className="form-control" id="phoneInput" name="phoneInput" value={this.state.phone} onChange={this.handleFieldChange} placeholder="Enter land/cell number" />
+                                            <input type="text" className="form-control" id="phoneInput" name="phoneInput" value={this.state.phoneInput} onChange={this.handleFieldChange} placeholder="Enter land/cell number" pattern="(^([+]{1}[8]{2}|0088)?(01){1}[3-9]{1}\d{8})$" required  />
+                                            <div style={{fontSize:14, color:'red'}}>{this.state.phoneError}</div>
                                         </div>
                                         <div className='form-group'>
                                             <label for="exampleInputEmail1">Rent</label>
-                                            <input type="text" className="form-control" id="rentInput" name="rentInput" value={this.state.rent} onChange={this.handleFieldChange} placeholder="Enter rent" 
-                                            />
+                                            <input type="number" className="form-control" id="rentInput" name="rentInput" value={this.state.rentInput} onChange={this.handleFieldChange} placeholder="Enter rent" 
+                                             required/>
+                                             
                                         </div>
                                         <div className='form-group '>
                                             <label for="exampleInputEmail1" style={{marginRight:'5px'}}>Registration Date</label>
@@ -187,7 +199,8 @@ export default class AddTenant extends React.Component {
                                         </div>
                                         <div className='form-group'>
                                             <label>House/Room No</label>
-                                            <Select value={this.state.hridInput} options={options} onChange={this.handleDropDownMenu} />                                           
+                                            <Select value={this.state.hridInput} options={options} onChange={this.handleDropDownMenu} required />                                           
+                                            <div style={{fontSize:14, color:'red'}}>{this.state.hridError}</div>
                                         </div>
                                         <button className='btn btn-success'>Create</button>
                                     </form>

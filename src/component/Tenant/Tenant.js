@@ -7,11 +7,13 @@ import Footer from '../layout/footer'
 import '../../App.css';
 
 
+
+
 export default class Tenant extends React.Component {
     constructor(){
         super();
         this.state = {
-            tenantList:[]
+            tenantList:[],
         }
     }
 
@@ -23,10 +25,26 @@ export default class Tenant extends React.Component {
             })
             //console.log(response)
           })
+        //   if(this.props.location.state!== undefined){
+        //       console.log('alert',this.props.location.state.msg)
+        //       const {location,history} = this.props;
+        //       history.replace() 
+        //   }
     }
 
     render() {
         const {tenantList} = this.state
+
+        // show alert on conditon
+        var alert = ''
+        if(this.props.location.state!==undefined){
+            alert = <div class="alert alert-success" role="alert">
+                        Success       
+                    </div>
+            const {location,history} = this.props;
+            history.replace()
+        }
+        
       return (
         <div>
           <Header />
@@ -40,9 +58,12 @@ export default class Tenant extends React.Component {
                                 <li class="breadcrumb-item"><Link to='/dashboard'>Dashboard</Link></li>
                                 <li class="breadcrumb-item active">Tenant</li>
                             </ol>
+                            {alert}
+                            
                             <div class="card mb-4">
                                 <div class="card-body">
                                     <Link class='btn btn-success mb-3' to='/tenant/create' >Create Tenant</Link>
+                                    
                                     <div class="table-responsive">
                                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                             <thead>
