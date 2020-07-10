@@ -110,31 +110,27 @@ export default class AddTenant extends React.Component {
                 reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
                 hrid:this.state.hridInput.value
             }
-            //below line is commented because to test redirect component
-            //console.log(tenant)
-            // axios.post('http://127.0.0.1:8000/api/tenants', tenant)
-            // .then(response => {
-            //     // redirect to the homepage
-            //     this.setState({redirect:true,msg:'success'})
-            //     console.log(response);
-                
-            // })
-            // .catch(error => {
-            //     this.setState({
-            //     errors: error.response.data.errors,msg:'failed'
-            //     })
-            // })
-            this.setState({redirect:true,msg:'success'})
-            this.setState({nameError:'',hridError:''})
+            console.log(tenant)
+            axios.post('http://127.0.0.1:8000/api/tenants', tenant)
+            .then(response => {
+                // redirect to the homepage
+                this.setState({redirect:true})
+                console.log(response);
+                localStorage.setItem('apiMsg',response.data.message)
+            })
+            .catch(error => {
+                this.setState({
+                errors: error.response.data.errors,msg:'failed'
+                })
+            })
+            
+            this.setState({redirect:true,nameError:'',hridError:''})
         }
     }
 
     render() {
         if(this.state.redirect){
-            return <Redirect to={{
-                pathname: "/tenant",
-                state : {msg:this.state.msg}
-            }}/>
+            return <Redirect to="/tenant"/>
         }
       return (
         <div>

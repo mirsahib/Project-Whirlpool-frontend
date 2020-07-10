@@ -14,9 +14,22 @@ export default class Tenant extends React.Component {
         super();
         this.state = {
             tenantList:[],
+            apiMsg:'',
+        }
+    }
+    componentWillMount(){
+        if(localStorage.getItem('apiMsg')!==null){
+            let msg = localStorage.getItem('apiMsg')
+            this.setState({apiMsg:msg})
+            let x = this.state.apiMsg
+            console.log(x)
+        
+        }else{
+            console.log('no item in localstorage')
         }
     }
 
+    
     componentDidMount(){
         
         axios.get("http://127.0.0.1:8000/api/tenants").then(response => {
@@ -25,26 +38,16 @@ export default class Tenant extends React.Component {
             })
             //console.log(response)
           })
-        //   if(this.props.location.state!== undefined){
-        //       console.log('alert',this.props.location.state.msg)
-        //       const {location,history} = this.props;
-        //       history.replace() 
-        //   }
+    }
+    
+    componentWillUnmount(){
+        if(localStorage.getItem('apiMsg')!==null){
+            localStorage.removeItem('apiMsg')
+        }
     }
 
     render() {
         const {tenantList} = this.state
-
-        // show alert on conditon
-        var alert = ''
-        if(this.props.location.state!==undefined){
-            alert = <div class="alert alert-success" role="alert">
-                        Success       
-                    </div>
-            const {location,history} = this.props;
-            history.replace()
-        }
-        
       return (
         <div>
           <Header />
@@ -58,7 +61,7 @@ export default class Tenant extends React.Component {
                                 <li class="breadcrumb-item"><Link to='/dashboard'>Dashboard</Link></li>
                                 <li class="breadcrumb-item active">Tenant</li>
                             </ol>
-                            {alert}
+                            {this.state.apiMsg ? <div className="alert alert-success">{this.state.apiMsg}</div>:<div></div>}
                             
                             <div class="card mb-4">
                                 <div class="card-body">
