@@ -33,6 +33,13 @@ export default class Tenant extends React.Component {
         //       history.replace() 
         //   }
     }
+    
+    handleDelete = (id)=>{
+        //api is not working properly need to update the database
+        // axios.delete(url+"api/tenants/"+id).then(response => {
+        //     console.log(response.data.message)
+        // })
+    }
 
     render() {
         const {tenantList} = this.state
@@ -90,8 +97,8 @@ export default class Tenant extends React.Component {
                                                             <td>{tenant.hrid}</td>
                                                             <td>
                                                             <Link className='btn btn-info ml-2' to={"/tenant/show/"+tenant.id} >Show</Link>
-                                                            <Link className='btn btn-primary ml-2' >Edit</Link>
-                                                            <Link className='btn btn-danger ml-2' >Delete</Link>
+                                                            <Link className='btn btn-primary ml-2' to={"/tenant/edit/"+tenant.id} >Edit</Link>
+                                                            <button className="btn btn-danger ml-2" onClick={()=> this.handleDelete(tenant.id)} >Delete</button>
                                                             </td>
                                                         </tr>
                                                     ))}

@@ -1,21 +1,18 @@
 import React from 'react';
+import axios from 'axios'
 import Header from '../layout/header'
 import Sidebar from '../layout/sidebar'
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Footer from '../layout/footer'
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
-import DatePicker from 'react-datepicker';
-import axios from 'axios'
-import moment from 'moment'
-import 'react-datepicker/dist/react-datepicker.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import Select from 'react-select'
-import { Redirect } from 'react-router'
 import '../../App.css';
 import {config} from '../../config/constants'
+import DatePicker from 'react-datepicker';
+import moment from 'moment'
+import Select from 'react-select'
+
 
 var url = config.url.API_URL
+//var url_users = config.url.API_URL_USERS
 
 const options = [
     { value: '101', label: '101' },
@@ -30,36 +27,36 @@ const options = [
     { value: '110', label: '110' },
 ];
 
-
-
-export default class AddTenant extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state ={
+export default class EditTenant extends React.Component {
+    constructor(){
+        super();
+        this.state = {
             startDate: moment(),
             nameInput: '',
             nidInput:'',
             nid_img:'',
             phoneInput:'',
             rentInput:'',
-            hridInput:'',
-            nameError: '',
-            nidError:'',
-            phoneError:'',
-            rentError:'',
-            hridError:'',
-            errors:'',
-            msg:'',
-            redirect:false
+            hridInput:{},
+            //defaultHrid:{label:'',value:''}
         }
     }
 
-    handleDateChange = (date)=>{
-        this.setState({
-            startDate: date
+    componentDidMount(){
+        axios.get(url+"api/tenants/"+this.props.match.params.id+"/edit").then(response => {
+            let tenant = response.data.tenant;
+            this.setState({
+                nameInput:tenant.name,
+                nidInput:tenant.nid,
+                phoneInput:tenant.phone,
+                rentInput:tenant.exp_rent,
+                nid_img:tenant.nid_img,
+                hridInput:{label:tenant.hrid,value:tenant.hrid}, 
+            })
           })
-        
+       //console.log(this.props.match.params.id)
     }
+
     handleFieldChange = (e)=>{ 
         this.setState({
             [e.target.name] : e.target.value
@@ -70,21 +67,20 @@ export default class AddTenant extends React.Component {
         this.setState({ hridInput });
         console.log(`Option selected:`, hridInput);
     }
+    handleDateChange = (date)=>{
+        this.setState({
+            startDate: date
+          })
+        
+    }
 
     validate = ()=>{
         let flag = true;
         let nameError = ""
-        let hridError = ""
 
         if(!this.state.nameInput.includes(' ')){
             nameError = "Full name should contain a space"
             this.setState({nameError})
-            flag = false
-        }
-        
-        if(this.state.hridInput.value === undefined){
-            hridError = "please select a house/room number"
-            this.setState({hridError})
             flag = false
         }
 
@@ -93,7 +89,7 @@ export default class AddTenant extends React.Component {
         return flag
 
     }
-    
+
 
     handleFormSubmit = (e)=>{
         e.preventDefault();
@@ -129,28 +125,24 @@ export default class AddTenant extends React.Component {
         }
     }
 
+
     render() {
-        if(this.state.redirect){
-            return <Redirect to={{
-                pathname: "/tenant",
-                state : {msg:this.state.msg}
-            }}/>
-        }
+        
+        
       return (
         <div>
-            <Header />
-            <div id="layoutSidenav">
+          <Header />
+          <div id="layoutSidenav">
                 <Sidebar />
                 <div id="layoutSidenav_content">
                     <main>
                         <div className="container-fluid">
-                            <h1 className="mt-4">Create Tenant</h1>
+                            <h1 className="mt-4">Tenant</h1>
                             <ol className="breadcrumb mb-4">
                                 <li className="breadcrumb-item"><Link to='/dashboard'>Dashboard</Link></li>
-                                <li className="breadcrumb-item"><Link to='/tenant'>Tenant</Link></li>
-                                <li className="breadcrumb-item active">Create Tenant</li>
+                                <li className="breadcrumb-item active"><Link to='/tenant'>Tenant</Link></li>
+                                <li className="breadcrumb-item active">{this.state.nameInput}</li>
                             </ol>
-
                             <div className="card mb-4">
                                 <div className="card-body">
                                     <form onSubmit={this.handleFormSubmit} novalidate>
@@ -165,7 +157,9 @@ export default class AddTenant extends React.Component {
                                             
                                         </div>
                                         <div className='form-group'>
-                                            <label for="exampleInputEmail1">National ID Image</label>
+                                            <label for="exampleInputEmail1">National ID Image :</label>
+                                            <img style={{width:"100px",marginBottom:"10px",marginLeft:"10px"}} src={this.state.nid_img}/>
+
                                             <div className="input-group">
                                                 <div className="input-group-prepend">
                                                     <span className="input-group-text" id="inputGroupFileAddon01">Upload</span>
@@ -203,16 +197,15 @@ export default class AddTenant extends React.Component {
                                             <Select value={this.state.hridInput} options={options} onChange={this.handleDropDownMenu} required />                                           
                                             <div style={{fontSize:14, color:'red'}}>{this.state.hridError}</div>
                                         </div>
-                                        <button className='btn btn-success'>Create</button>
+                                        <button className='btn btn-success'>Update</button>
+                                        <Link className='btn btn-primary ml-2' to="/tenant">Back</Link>
                                     </form>
                                 </div>
                             </div>
-                        
                         </div>
                     </main>
                     <Footer />
                 </div>
-            
             </div>
         </div>
       );

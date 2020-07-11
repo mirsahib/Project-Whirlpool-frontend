@@ -24,7 +24,7 @@ export default class ShowTenant extends React.Component {
             this.setState({
               tenant: response.data.tenant
             })
-            console.log(this.state.tenant)
+            //console.log(this.state.tenant)
           })
         //console.log(this.props.match.params.id)
     }
@@ -78,9 +78,10 @@ export default class ShowTenant extends React.Component {
 
                                         </div>
                                         <div className="col-4">
-                                            <img src={tenant.nid_img}/>
+                                            <img style={{width:'200px'}} src={tenant.nid_img}/>
                                         </div>
                                     </div>
+                                    <Link className="btn btn-primary mt-5" to='/tenant'>Back</Link>
                                 </div>
                             </div>
                             
