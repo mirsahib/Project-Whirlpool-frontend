@@ -22,9 +22,10 @@ export default class ShowTenant extends React.Component {
     componentDidMount(){
         axios.get(url+"api/tenants/"+this.props.match.params.id).then(response => {
             this.setState({
-              tenant: response.data.tenant
+              tenant: response.data.tenant[0]
             })
             //console.log(this.state.tenant)
+            //console.log(this.props.match.params.id)
           })
         //console.log(this.props.match.params.id)
     }

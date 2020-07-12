@@ -34,11 +34,19 @@ export default class Tenant extends React.Component {
         //   }
     }
     
-    handleDelete = (id)=>{
-        //api is not working properly need to update the database
-        // axios.delete(url+"api/tenants/"+id).then(response => {
-        //     console.log(response.data.message)
-        // })
+    handleDelete = (e)=>{
+        const tenantId = e.target.value
+        let tenants = Array.from(this.state.tenantList)
+        console.log('before',tenants)
+        for (let index = 0; index < tenants.length; index++) {
+            if(tenants[index].id==tenantId){
+                tenants.splice(index,1)
+            }
+        }
+        axios.delete(url+"api/tenants/"+tenantId).then(response => {
+            console.log(response.data.message)
+        })
+        this.setState({tenantList:tenants})
     }
 
     render() {
@@ -98,7 +106,7 @@ export default class Tenant extends React.Component {
                                                             <td>
                                                             <Link className='btn btn-info ml-2' to={"/tenant/show/"+tenant.id} >Show</Link>
                                                             <Link className='btn btn-primary ml-2' to={"/tenant/edit/"+tenant.id} >Edit</Link>
-                                                            <button className="btn btn-danger ml-2" onClick={()=> this.handleDelete(tenant.id)} >Delete</button>
+                                                            <button value = {tenant.id} className="btn btn-danger ml-2" onClick={this.handleDelete} >Delete</button>
                                                             </td>
                                                         </tr>
                                                     ))}
