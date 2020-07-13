@@ -20,18 +20,21 @@ export default class Tenant extends React.Component {
     }
 
     componentDidMount(){
-        
-        axios.get(url+"api/tenants").then(response => {
+
+        const cacheTenant = JSON.parse( sessionStorage.getItem('tenantList'))
+        if(cacheTenant){
             this.setState({
-              tenantList: [...response.data.tenants]
+                tenantList: [cacheTenant]
+               })
+        }else{
+            axios.get(url+"api/tenants").then(response => {
+                this.setState({
+                  tenantList: [...response.data.tenants]
+                })
+                sessionStorage.setItem('tenantList',JSON.stringify(response.data.tenants))
             })
-            //console.log(response)
-          })
-        //   if(this.props.location.state!== undefined){
-        //       console.log('alert',this.props.location.state.msg)
-        //       const {location,history} = this.props;
-        //       history.replace() 
-        //   }
+        }
+       
     }
     
     handleDelete = (e)=>{
