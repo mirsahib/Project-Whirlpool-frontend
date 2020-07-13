@@ -24,7 +24,7 @@ export default class Tenant extends React.Component {
         const cacheTenant = JSON.parse( sessionStorage.getItem('tenantList'))
         if(cacheTenant){
             this.setState({
-                tenantList: [cacheTenant]
+                tenantList: [...cacheTenant]
                })
         }else{
             axios.get(url+"api/tenants").then(response => {
