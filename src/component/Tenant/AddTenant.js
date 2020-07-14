@@ -14,6 +14,8 @@ import Select from 'react-select'
 import { Redirect } from 'react-router'
 import '../../App.css';
 import {config} from '../../config/constants'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 var url = config.url.API_URL
 
@@ -31,7 +33,7 @@ const options = [
 ];
 
 
-
+toast.configure()
 export default class AddTenant extends React.Component {
     constructor(props) {
         super(props);
@@ -91,50 +93,51 @@ export default class AddTenant extends React.Component {
         //datepicker validation is not done
 
         return flag
-
     }
     
 
+    notify = () => {
+        toast.success("Success",{position:toast.POSITION.BOTTOM_RIGHT,autoClose:3000})
+    }
+
     handleFormSubmit = (e)=>{
         e.preventDefault();
+        this.notify()
         
-        let isValid = this.validate()
+        
+        //let isValid = this.validate()
 
-        if(isValid){
-            console.log("form valid")
-            const tenant = {
-                name: this.state.nameInput,
-                nid:this.state.nidInput,
-                phone:this.state.phoneInput,
-                exp_rent: this.state.rentInput,
-                reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
-                hrid:this.state.hridInput.value
-            }
-            //below line is commented because to test redirect component
-            //console.log(tenant)
-            // axios.post(url+'api/tenants', tenant)
-            // .then(response => {
-            //     // redirect to the homepage
-            //     this.setState({redirect:true,msg:'success'})
-            //     console.log(response);
+        // if(isValid){
+        //     console.log("form valid")
+        //     const tenant = {
+        //         name: this.state.nameInput,
+        //         nid:this.state.nidInput,
+        //         phone:this.state.phoneInput,
+        //         exp_rent: this.state.rentInput,
+        //         reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
+        //         hrid:this.state.hridInput.value
+        //     }
+        //     //below line is commented because to test redirect component
+        //     //console.log(tenant)
+        //     // axios.post(url+'api/tenants', tenant)
+        //     // .then(response => {
+        //     //     // redirect to the homepage
+        //     //     this.setState({redirect:true,msg:'success'})
+        //     //     console.log(response);
                 
-            // })
-            // .catch(error => {
-            //     this.setState({
-            //     errors: error.response.data.errors,msg:'failed'
-            //     })
-            // })
-            this.setState({redirect:true,msg:'success'})
-            this.setState({nameError:'',hridError:''})
-        }
+        //     // })
+        //     // .catch(error => {
+        //     //     this.setState({
+        //     //     errors: error.response.data.errors,msg:'failed'
+        //     //     })
+        //     // })
+            this.setState({redirect:true})
+        
     }
 
     render() {
         if(this.state.redirect){
-            return <Redirect to={{
-                pathname: "/tenant",
-                state : {msg:this.state.msg}
-            }}/>
+            return<Redirect to="/tenant"/>
         }
       return (
         <div>
