@@ -20,16 +20,16 @@ import 'react-toastify/dist/ReactToastify.css';
 var url = config.url.API_URL
 
 const options = [
-    { value: '101', label: '101' },
-    { value: '102', label: '102' },
-    { value: '103', label: '103' },
-    { value: '104', label: '104' },
-    { value: '105', label: '105' },
-    { value: '106', label: '106' },
-    { value: '107', label: '107' },
-    { value: '108', label: '108' },
-    { value: '109', label: '109' },
-    { value: '110', label: '110' },
+    { value: '1', label: '101' },
+    { value: '2', label: '102' },
+    { value: '3', label: '103' },
+    { value: '4', label: '104' },
+    { value: '5', label: '105' },
+    { value: '6', label: '106' },
+    { value: '7', label: '107' },
+    { value: '8', label: '108' },
+    { value: '9', label: '109' },
+    { value: '10', label: '110' },
 ];
 
 
@@ -50,8 +50,6 @@ export default class AddTenant extends React.Component {
             phoneError:'',
             rentError:'',
             hridError:'',
-            errors:'',
-            msg:'',
             redirect:false
         }
     }
@@ -96,43 +94,35 @@ export default class AddTenant extends React.Component {
     }
     
 
-    notify = () => {
-        toast.success("Success",{position:toast.POSITION.BOTTOM_RIGHT,autoClose:3000})
-    }
+    
 
     handleFormSubmit = (e)=>{
         e.preventDefault();
-        this.notify()
-        
-        
-        //let isValid = this.validate()
-
-        // if(isValid){
-        //     console.log("form valid")
-        //     const tenant = {
-        //         name: this.state.nameInput,
-        //         nid:this.state.nidInput,
-        //         phone:this.state.phoneInput,
-        //         exp_rent: this.state.rentInput,
-        //         reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
-        //         hrid:this.state.hridInput.value
-        //     }
-        //     //below line is commented because to test redirect component
-        //     //console.log(tenant)
-        //     // axios.post(url+'api/tenants', tenant)
-        //     // .then(response => {
-        //     //     // redirect to the homepage
-        //     //     this.setState({redirect:true,msg:'success'})
-        //     //     console.log(response);
-                
-        //     // })
-        //     // .catch(error => {
-        //     //     this.setState({
-        //     //     errors: error.response.data.errors,msg:'failed'
-        //     //     })
-        //     // })
-            this.setState({redirect:true})
-        
+       // let isValid = this.validate()
+        let isValid = true
+        if(isValid){
+            console.log("form valid")
+            const tenant = {
+                name: this.state.nameInput,
+                nid:this.state.nidInput,
+                phone:this.state.phoneInput,
+                exp_rent: this.state.rentInput,
+                reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
+                hrid:this.state.hridInput.value
+            }
+            //console.log(tenant)
+            axios.post(url+'api/tenants', tenant)
+            .then(response => {
+                // redirect to the homepage
+                toast.success(response.data.message,{position:toast.POSITION.BOTTOM_RIGHT,autoClose:3000})
+                this.setState({redirect:true})
+ 
+            })
+            .catch(error => {
+                console.log(error.response)
+                //toast.error(error,{position:toast.POSITION.BOTTOM_RIGHT,autoClose:3000})
+            })
+        }
     }
 
     render() {

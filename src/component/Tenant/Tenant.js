@@ -53,18 +53,7 @@ export default class Tenant extends React.Component {
     }
 
     render() {
-        const {tenantList} = this.state
-
-        // show alert on conditon
-        var alert = ''
-        if(this.props.location.state!==undefined){
-            alert = <div className="alert alert-success" role="alert">
-                        Success       
-                    </div>
-            const {location,history} = this.props;
-            history.replace()
-        }
-        
+        const {tenantList} = this.state   
       return (
         <div>
           <Header />
