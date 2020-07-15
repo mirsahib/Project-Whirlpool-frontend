@@ -6,11 +6,13 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Footer from '../layout/footer'
 import '../../App.css';
 import {config} from '../../config/constants'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 var url = config.url.API_URL
 //var url_users = config.url.API_URL_USERS
 
-
+toast.configure()
 export default class Tenant extends React.Component {
     constructor(){
         super();
@@ -47,9 +49,14 @@ export default class Tenant extends React.Component {
             }
         }
         axios.delete(url+"api/tenants/"+tenantId).then(response => {
+            toast.success(response.data.message,{position:toast.POSITION.BOTTOM_RIGHT,autoClose:4000})
             console.log(response.data.message)
+        }).catch(error=>{
+            console.log(error.response.data.statustext)
+            toast.error(error,{position:toast.POSITION.BOTTOM_RIGHT,autoClose:3000})
         })
         this.setState({tenantList:tenants})
+        sessionStorage.setItem('tenantList',JSON.stringify(tenants))
     }
 
     render() {

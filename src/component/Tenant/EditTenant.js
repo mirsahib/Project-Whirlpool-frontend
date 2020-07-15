@@ -38,7 +38,6 @@ export default class EditTenant extends React.Component {
             phoneInput:'',
             rentInput:'',
             hridInput:{},
-            //defaultHrid:{label:'',value:''}
         }
     }
 
@@ -51,7 +50,7 @@ export default class EditTenant extends React.Component {
                 phoneInput:tenant.phone,
                 rentInput:tenant.exp_rent,
                 nid_img:tenant.nid_img,
-                hridInput:{label:tenant.hrid,value:tenant.hrid}, 
+                hridInput:{label:tenant.house_id+100,value:tenant.house_id}, //this code is bad 
             })
           })
        //console.log(this.props.match.params.id)
@@ -104,9 +103,8 @@ export default class EditTenant extends React.Component {
                 phone:this.state.phoneInput,
                 exp_rent: this.state.rentInput,
                 reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
-                hrid:this.state.hridInput.value
+                house_id:this.state.hridInput.value
             }
-            //below line is commented because to test redirect component
             //console.log(tenant)
             // axios.post(url+'api/tenants', tenant)
             // .then(response => {

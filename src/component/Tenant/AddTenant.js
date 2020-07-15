@@ -98,8 +98,8 @@ export default class AddTenant extends React.Component {
 
     handleFormSubmit = (e)=>{
         e.preventDefault();
-       // let isValid = this.validate()
-        let isValid = true
+        let isValid = this.validate()
+        //let isValid = true
         if(isValid){
             console.log("form valid")
             const tenant = {
@@ -108,18 +108,18 @@ export default class AddTenant extends React.Component {
                 phone:this.state.phoneInput,
                 exp_rent: this.state.rentInput,
                 reg_date:moment(this.state.startDate).format("YYYY-MM-DD"),
-                hrid:this.state.hridInput.value
+                house_id:this.state.hridInput.value
             }
             //console.log(tenant)
             axios.post(url+'api/tenants', tenant)
             .then(response => {
                 // redirect to the homepage
-                toast.success(response.data.message,{position:toast.POSITION.BOTTOM_RIGHT,autoClose:3000})
+                toast.success(response.data.message,{position:toast.POSITION.BOTTOM_RIGHT,autoClose:4000})
                 this.setState({redirect:true})
  
             })
             .catch(error => {
-                console.log(error.response)
+                console.log(error.response.data.statustext)
                 //toast.error(error,{position:toast.POSITION.BOTTOM_RIGHT,autoClose:3000})
             })
         }
