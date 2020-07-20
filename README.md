@@ -1,4 +1,15 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<img src="public/logo.png"
+     alt="HRMS"
+      />
+
+## <center>House Rental Manegment System (HRMS) REST API</center>
+
+## Overview
+The HRMS-FrontEnd is a management tool to manage the tenant in my house.This project is build on React.
+
+## [HRMS REST Api](https://github.com/mirsahib/Project-Whirlpool-backend.git)
+
+
 
 ## Available Scripts
 
