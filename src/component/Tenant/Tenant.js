@@ -19,7 +19,6 @@ export default class Tenant extends React.Component {
         this.state = {
             curr_tenant_list : [],
             prev_tenant_list :[],
-            key:'home'
         }
     }
 
