@@ -17,23 +17,30 @@ export default class Tenant extends React.Component {
     constructor(){
         super();
         this.state = {
-            tenantList:[],
+            curr_tenant_list : [],
+            prev_tenant_list :[],
+            key:'home'
         }
     }
 
     componentDidMount(){
 
-        const cacheTenant = JSON.parse( sessionStorage.getItem('tenantList'))
-        if(cacheTenant){
+        const curr_cache_tenant = JSON.parse( sessionStorage.getItem('curr_tenant'))
+        const prev_cache_tenant = JSON.parse( sessionStorage.getItem('prev_tenant'))
+        if(curr_cache_tenant){
             this.setState({
-                tenantList: [...cacheTenant]
+                curr_tenant_list: [...curr_cache_tenant],
+                prev_tenant_list: [...prev_cache_tenant]
                })
         }else{
             axios.get(url+"api/tenants").then(response => {
+                //console.log(response.data.curr_tenants)
                 this.setState({
-                  tenantList: [...response.data.tenants]
+                  curr_tenant_list: [...response.data.curr_tenants],
+                  prev_tenant_list: [...response.data.prev_tenants]
                 })
-                sessionStorage.setItem('tenantList',JSON.stringify(response.data.tenants))
+                sessionStorage.setItem('curr_tenant',JSON.stringify(response.data.curr_tenants))
+                sessionStorage.setItem('prev_tenant',JSON.stringify(response.data.prev_tenants))
             })
         }
        
@@ -60,7 +67,7 @@ export default class Tenant extends React.Component {
     }
 
     render() {
-        const {tenantList} = this.state   
+        const {curr_tenant_list,prev_tenant_list} = this.state   
       return (
         <div>
           <Header />
@@ -75,44 +82,93 @@ export default class Tenant extends React.Component {
                                 <li className="breadcrumb-item active">Tenant</li>
                             </ol>
                             {alert}
-                            
+
                             <div className="card mb-4">
                                 <div className="card-body">
                                     <Link className='btn btn-success mb-3' to='/tenant/create' >Create Tenant</Link>
-                                    
-                                    <div className="table-responsive">
-                                        <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Name</th>
-                                                    <th>National ID</th>
-                                                    <th>Phone Number</th>
-                                                    <th>Registration Date</th>
-                                                    <th>Expected Rent</th>
-                                                    <th>House/Room No</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                                <tbody>
-                                                    {tenantList.map(tenant=>(
-                                                        <tr key = {tenant.id}>
-                                                            <td>{tenant.name}</td>
-                                                            <td>{tenant.nid}</td>
-                                                            <td>{tenant.phone}</td>
-                                                            <td>{tenant.reg_date}</td>
-                                                            <td>{tenant.exp_rent}</td>
-                                                            <td>{tenant.hrid}</td>
-                                                            <td>
-                                                            <Link className='btn btn-info ml-2' to={"/tenant/show/"+tenant.id} >Show</Link>
-                                                            <Link className='btn btn-primary ml-2' to={"/tenant/edit/"+tenant.id} >Edit</Link>
-                                                            <button value = {tenant.id} className="btn btn-danger ml-2" onClick={this.handleDelete} >Delete</button>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                    
-                                                </tbody>
-                                        </table>
-                                    </div>
+                                    <nav>
+                                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Current Tenant</a>
+                                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Ex-Tenant</a>
+                                        </div>
+                                    </nav>
+                                        <div class="tab-content" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                
+                                                <div className="table-responsive">
+                                                        <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tenant id</th>
+                                                                    <th>Name</th>
+                                                                    <th>National ID</th>
+                                                                    <th>Phone Number</th>
+                                                                    <th>Registration Date</th>
+                                                                    <th>Expected Rent</th>
+                                                                    <th>House/Room No</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                                <tbody>
+                                                                    {curr_tenant_list.map(tenant=>(
+                                                                        <tr key = {tenant.id}>
+                                                                            <td>{tenant.id}</td>
+                                                                            <td>{tenant.name}</td>
+                                                                            <td>{tenant.nid}</td>
+                                                                            <td>{tenant.phone}</td>
+                                                                            <td>{tenant.reg_date}</td>
+                                                                            <td>{tenant.exp_rent}</td>
+                                                                            <td>{tenant.hrid}</td>
+                                                                            <td>
+                                                                            <Link className='btn btn-info ml-2' to={"/tenant/show/"+tenant.id} >Show</Link>
+                                                                            <Link className='btn btn-primary ml-2' to={"/tenant/edit/"+tenant.id} >Edit</Link>
+                                                                            <button value = {tenant.id} className="btn btn-danger ml-2" onClick={this.handleDelete} >Delete</button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))}
+                                                                    
+                                                                </tbody>
+                                                        </table>
+                                                </div>
+                                            
+                                            </div>
+                                        
+                                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">                                                    
+                                                <div className="table-responsive">
+                                                        <table className="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Tenant id</th>
+                                                                    <th>Name</th>
+                                                                    <th>National ID</th>
+                                                                    <th>Phone Number</th>
+                                                                    <th>Registration Date</th>
+                                                                    <th>Expected Rent</th>
+                                                                    <th>House/Room No</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                                <tbody>
+                                                                    {prev_tenant_list.map(tenant=>(
+                                                                        <tr key = {tenant.id}>
+                                                                            <td>{tenant.id}</td>
+                                                                            <td>{tenant.name}</td>
+                                                                            <td>{tenant.nid}</td>
+                                                                            <td>{tenant.phone}</td>
+                                                                            <td>{tenant.reg_date}</td>
+                                                                            <td>{tenant.exp_rent}</td>
+                                                                            <td>{tenant.hrid}</td>
+                                                                            <td>
+                                                                            <Link className='btn btn-info ml-2' to={"/tenant/show/"+tenant.id} >Show</Link>
+                                                                            </td>
+                                                                        </tr>
+                                                                    ))}
+                                                                    
+                                                                </tbody>
+                                                        </table>
+                                                </div>
+                                            </div>
+                                        </div>                 
                                 </div>
                             </div>
                         </div>
