@@ -6,6 +6,8 @@ import Footer from '../layout/footer'
 import '../../App.css';
 import axios from 'axios'
 import {config} from '../../config/constants'
+import Table from '../payment/table'
+
 var url = config.url.API_URL
 
 
@@ -14,7 +16,8 @@ export default class Payment extends React.Component {
     constructor(){
         super();
         this.state = {
-            payments : []
+            paid : [],
+            unpaid:[]
         }
     }
 
@@ -25,20 +28,18 @@ export default class Payment extends React.Component {
         }
 
         axios.post(url+"api/payments/load",payload).then(response => {
-            console.log(response.data.Record)
+            //console.log(response.data)
             this.setState({
-              payments: [...response.data.Record],
+              paid: [...response.data.paid],
+              unpaid: [...response.data.unpaid]
             })
-            console.log(this.state.payments)
-
-            // sessionStorage.setItem('curr_tenant',JSON.stringify(response.data.curr_tenants))
-            // sessionStorage.setItem('prev_tenant',JSON.stringify(response.data.prev_tenants))
         })
 
     }
 
     render() {
-        const {payments} = this.state
+        const {paid,unpaid} = this.state
+
       return (
         <div>
           <Header />
@@ -54,40 +55,58 @@ export default class Payment extends React.Component {
                             </ol>
                             <div class="card mb-4">
                                 <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                            <thead>
-                                                <tr>
-                                                    <th>Tenant Name</th>
-                                                    <th>Year</th>
-                                                    <th>Month</th>
-                                                    <th>Expected Rent</th>
-                                                    <th>Paid Amount</th>
-                                                    <th>Dues</th>
-                                                    <th>Comment</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                                <tbody>
-                                                    {payments.map(payment=>(
-                                                        <tr key = {payment.id}>
-                                                            <td>{payment.name}</td>
-                                                            <td>{payment.pay_year}</td>
-                                                            <td>{payment.pay_month}</td>
-                                                            <td>{payment.exp_rent}</td>
-                                                            <td>{payment.paid_rent}</td>
-                                                            <td>{payment.dues}</td>
-                                                            <td>{payment.comment}</td>
-                                                            <td style={{width:'200px'}}>
-                                                                <Link class='btn btn-info ml-2' >Show</Link>
-                                                                <Link class='btn btn-primary ml-2' to='payment/makePayment' >Pay Rent</Link>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                    
-                                                </tbody>
-                                        </table>
+                                <Link className='btn btn-success mb-3' to='/tenant/create' >Create Payment</Link>
+                                <nav>
+                                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Paid</a>
+                                        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Unpaid</a>
                                     </div>
+                                </nav>
+                                    <div class="tab-content" id="nav-tabContent">
+                                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tenant Name</th>
+                                                        <th>Year</th>
+                                                        <th>Month</th>
+                                                        <th>Expected Rent</th>
+                                                        <th>Paid Amount</th>
+                                                        <th>Dues</th>
+                                                        <th>Comment</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                    <Table data={[...paid]} />
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Tenant Name</th>
+                                                        <th>Year</th>
+                                                        <th>Month</th>
+                                                        <th>Expected Rent</th>
+                                                        <th>Paid Amount</th>
+                                                        <th>Dues</th>
+                                                        <th>Comment</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <Table data={[...unpaid]} />
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                </div>
+{/** 
+                                    
+      */}                          
                                 </div>
                             </div>
                         </div>
