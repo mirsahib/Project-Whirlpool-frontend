@@ -8,6 +8,7 @@ import '../../App.css';
 import {config} from '../../config/constants'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Table from '../Tenant/Table'
 
 var url = config.url.API_URL
 //var url_users = config.url.API_URL_USERS
@@ -108,25 +109,7 @@ export default class Tenant extends React.Component {
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
-                                                                <tbody>
-                                                                    {curr_tenant_list.map(tenant=>(
-                                                                        <tr key = {tenant.id}>
-                                                                            <td>{tenant.id}</td>
-                                                                            <td>{tenant.name}</td>
-                                                                            <td>{tenant.nid}</td>
-                                                                            <td>{tenant.phone}</td>
-                                                                            <td>{tenant.reg_date}</td>
-                                                                            <td>{tenant.exp_rent}</td>
-                                                                            <td>{tenant.hrid}</td>
-                                                                            <td>
-                                                                            <Link className='btn btn-info ml-2' to={"/tenant/show/"+tenant.id} >Show</Link>
-                                                                            <Link className='btn btn-primary ml-2' to={"/tenant/edit/"+tenant.id} >Edit</Link>
-                                                                            <button value = {tenant.id} className="btn btn-danger ml-2" onClick={this.handleDelete} >Delete</button>
-                                                                            </td>
-                                                                        </tr>
-                                                                    ))}
-                                                                    
-                                                                </tbody>
+                                                                <Table data={[...curr_tenant_list]} />
                                                         </table>
                                                 </div>
                                             
@@ -147,23 +130,7 @@ export default class Tenant extends React.Component {
                                                                     <th>Action</th>
                                                                 </tr>
                                                             </thead>
-                                                                <tbody>
-                                                                    {prev_tenant_list.map(tenant=>(
-                                                                        <tr key = {tenant.id}>
-                                                                            <td>{tenant.id}</td>
-                                                                            <td>{tenant.name}</td>
-                                                                            <td>{tenant.nid}</td>
-                                                                            <td>{tenant.phone}</td>
-                                                                            <td>{tenant.reg_date}</td>
-                                                                            <td>{tenant.exp_rent}</td>
-                                                                            <td>{tenant.hrid}</td>
-                                                                            <td>
-                                                                            <Link className='btn btn-info ml-2' to={"/tenant/show/"+tenant.id} >Show</Link>
-                                                                            </td>
-                                                                        </tr>
-                                                                    ))}
-                                                                    
-                                                                </tbody>
+                                                            <Table data={[...prev_tenant_list]} />
                                                         </table>
                                                 </div>
                                             </div>
