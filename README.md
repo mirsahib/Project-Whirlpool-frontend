@@ -4,12 +4,13 @@
 
 ## <center>House Rental Manegment System (HRMS) Front-End</center>
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/2849dd50-1666-4529-963d-b29e6c3e76bd/deploy-status)](https://app.netlify.com/sites/react-hrms/deploys)
+
 ## Overview
+
 The HRMS Front-End is a management tool to manage the tenant in my house.This project is build on React.
 
 ## [HRMS REST Api](https://github.com/mirsahib/Project-Whirlpool-backend.git)
-
-
 
 ## Available Scripts
 
